@@ -21,6 +21,11 @@
         - "{{ php_package }}"
       state: absent
 
+  - name: remove files
+    file:
+      path: /etc/apache2
+      state: absent
+
 - hosts: db_servers
   become: true
   tasks:
