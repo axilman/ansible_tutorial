@@ -1,0 +1,42 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - include_vars: ./vars_ubuntu.yml
+    when: ansible_distribution == "Ubuntu"
+
+  - include_vars: ./vars_centos.yml
+    when: ansible_distribution == "CentOS"
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: remove apache and php package
+    package:
+      name:
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
+      state: absent
+
+- hosts: db_servers
+  become: true
+  tasks:
+ 
+  - name: remove mariadb package
+    package:
+      name: 
+        - "{{ mariadb_package }}"
+      state: absent
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: remove mariadb package
+    package:
+      name: samba 
+      state: absent
+
