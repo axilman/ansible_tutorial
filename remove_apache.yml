@@ -4,16 +4,10 @@
   become: true
   tasks:
 
-  - name: set fact for Ubuntu
-    set_fact:
-      apache_package: "apache2"
-      php_package: "libapache2-mod-php"
+  - include_vars: ./vars_ubuntu.yml
     when: ansible_distribution == "Ubuntu"
 
-  - name: set fact for CentOS
-    set_fact:
-      apache_package: "httpd"
-      php_package: "php"
+  - include_vars: ./vars_centos.yml
     when: ansible_distribution == "CentOS"
 
   - name: remove apache2 package
