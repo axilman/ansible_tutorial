@@ -4,12 +4,21 @@
   become: true
   tasks:
 
-  - name: remove apache2 package
-    apt:
-      name: apache2
-      state: absent
+  - name: set fact for Ubuntu
+    set_fact:
+      apache_package: "apache2"
+      php_package: "libapache2-mod-php"
+    when: ansible_distribution == "Ubuntu"
 
-  - name: remove php support for apache
-    apt:
-      name: libapache2-mod-php
+  - name: set fact for CentOS
+    set_fact:
+      apache_package: "httpd"
+      php_package: "php"
+    when: ansible_distribution == "CentOS"
+
+  - name: remove apache2 package
+    package:
+      name: 
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
       state: absent
